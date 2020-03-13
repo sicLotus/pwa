@@ -1,11 +1,23 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './i18n';
+import { useTranslation } from 'react-i18next';
 
-class ShoppingList extends React.Component {
-  render() {
-    return (
-      <div className="shopping-list">
+
+
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+    Link
+} from "react-router-dom";
+import withInitialSetupScreen from './routes/withInitialSetupScreen'
+
+function ShoppingList () {
+       return (
+            <div className="shopping-list">
         <h1>Shopping List for {this.props.name}</h1>
         <ul>
           <li>Instagramm</li>
@@ -13,22 +25,16 @@ class ShoppingList extends React.Component {
           <li>Oculus</li>
         </ul>
       </div>
-    );
-  }
+        );
 }
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload. Ok?
-        </p>
-        <ShoppingList />
-      </header>
-    </div>
-  );
+ const { t, i18n } = useTranslation();
+        // <Route path="/main"><ShoppingList /></Route>
+    return (
+        <h1>{t("Language")}</h1>
+    );
 }
 
-export default App;
+export default withInitialSetupScreen(App);
