@@ -4,10 +4,10 @@ import {en, de} from './languages/';
 
 let resources = {
   en: {
-    translation: en
+    translation: en.translations
   },
   de: {
-    translation: de
+    translation: de.translations
   }
 };
 

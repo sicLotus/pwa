@@ -1,17 +1,37 @@
 import React, { useState } from 'react';
-// import logo from './logo.svg';
 import styles from './language-selector.module.css';
 import { useTranslation } from 'react-i18next';
+import {en, de} from '../languages/';
+
+
+function LanguageRadio({checked, lang, onHandleClick}) {
+	const handleOnClick = () => {
+    	onHandleClick(lang.locale);
+    }
+
+    const handleOnChange = () => {
+    	// is never called because input is hidden
+    }
+
+	return (
+		<React.Fragment>
+		<input onChange={handleOnChange} type="radio" name="language" value={lang.locale} checked={checked} />
+    	<label onClick={handleOnClick}>
+    		{lang.name}
+    		<img className={styles.flagIcon} src={lang.icon} alt="language flag" />
+		</label>
+    	</React.Fragment>
+	);
+}
 
 
 const LanguageSelector = ({ onLanguageSelect }) => {
-    const [selectedLanguage, setSelectedLanguage] = useState('en');
+    const [selectedLanguage, setInternalLangState] = useState(en.locale);
     const { t, i18n } = useTranslation();
 
-    const handleLanguageChange = ev => {
-    	const lang = ev.target.value;
-    	setSelectedLanguage(lang);
-    	i18n.changeLanguage(lang);
+    const handleLanguageChange = (locale) => {
+		setInternalLangState(locale);
+    	i18n.changeLanguage(locale);
     }
 
     const handleFormSubmit = ev => {
@@ -20,13 +40,13 @@ const LanguageSelector = ({ onLanguageSelect }) => {
     }
 
     return (
-
         <div className = { styles.box } >
         <form onSubmit={handleFormSubmit}>
-    			<div><label><input onChange={handleLanguageChange} type="radio" name="language" value="en" checked={selectedLanguage === "en"} />English</label></div>
-    			<div><label><input onChange={handleLanguageChange} type="radio" name="language" value="de" checked={selectedLanguage === "de"}/>Deutsch</label></div>
-    			<button type="submit">{t('Continue')}</button>
-    		</form> </div>
+        	<LanguageRadio onHandleClick={handleLanguageChange} lang={en} checked={selectedLanguage === en.locale} />
+    		<LanguageRadio onHandleClick={handleLanguageChange} lang={de} checked={selectedLanguage === de.locale} />
+    		<button className={styles.btn} type="submit">{t('Continue')}</button>
+		</form> 
+		</div>
     );
 }
 
